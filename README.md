@@ -1,2 +1,2 @@
-# Locomotive
+# locomotive
 A python script that extracts info about steam games.
