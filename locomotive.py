@@ -11,7 +11,6 @@ from steamfront import app as app
 @click.argument("names", nargs=-1)
 def combustion_chamber(include_header, output_format, names):
     client = steamfront.Client()
-    failings = []
     if include_header and output_format != "json":
         click.echo("APPID\tGENRES\tCATEGORIES\tBANNER_URL\tSHORT_DESC\tLONG_DESC\t\n")
     for name in names:
