@@ -4,11 +4,22 @@ from steamfront import app as app
 
 
 @click.command()
-@click.option('--output_format', default="tabs", help="The output format. By default, its Tab Separated Values. \n" +
-                                                      "For now, only 'tabs' is supported.")
-@click.option('--include_header', default=False, help="Enables the inclusion of the header as part of the output." +
-                                                      "\nIgnored if output format is not tabs.")
-@click.argument("names", nargs=-1)
+@click.option(
+    '--include-header/--exclude-header',
+    "include_header",
+    default=False,
+    help="Adds an header detailing the column contents.\nIgnored if output format is not tabs.",
+)
+@click.option(
+    '--output-format',
+    "output_format",
+    default="tabs",
+    help="The format the program should output data as. Available values: 'tabs'",
+)
+@click.argument(
+    "names",
+    nargs=-1,
+)
 def combustion_chamber(include_header, output_format, names):
     client = steamfront.Client()
     if include_header and output_format != "json":
