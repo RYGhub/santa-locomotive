@@ -1,3 +1,4 @@
+import typing as t
 import click
 import steamfront
 import steamfront.errors
@@ -47,13 +48,14 @@ def locomotive_on_rails() -> str:
     """
     Get the results header.
     """
-    return "AppName\t" \
-           "AppID\t" \
-           "Genres\t" \
-           "BannerImageURL\t" \
-           "About\t" \
-           "Summary\t" \
-           "Description"
+    return "NAME\t" \
+           "APPID\t" \
+           "PRICE\t" \
+           "METASCORE\t" \
+           "GENRES\t" \
+           "PLATFORMS\t" \
+           "DESCRIPTION\t" \
+           "STORELINK"
 
 
 def game_on_rails(game: app.App) -> str:
@@ -63,15 +65,31 @@ def game_on_rails(game: app.App) -> str:
     """
     return f"{game.name}\t" \
            f"{game.appid}\t" \
+           f"{money_on_rails(game.price_overview)}\t" \
+           f"{reviews_on_rails(game.metacritic)}\t" \
            f"{subsection_on_rails(game.genres)}\t" \
-           f"{game.header_image}\t" \
-           f"{content_sanitizer(game.about_the_game)}\t" \
+           f"{platforms_on_rails(game.platforms)}\t" \
            f"{content_sanitizer(game.short_description)}\t" \
-           f"{content_sanitizer(game.detailed_description)}"
+           f"https://store.steampowered.com/app/{game.appid}/"
 
 
 def subsection_on_rails(subsection: list) -> str:
     return ";".join(subsection)
+
+
+def platforms_on_rails(d: dict) -> str:
+    return ";".join([key for key, value in d.items() if value])
+
+
+def reviews_on_rails(d: dict) -> str:
+    return f"{d['score']}"
+
+
+def money_on_rails(d: t.Optional[dict]) -> str:
+    if isinstance(d, dict):
+        return d["final_formatted"]
+    else:
+        return "0.00€"
 
 
 def content_sanitizer(content: str) -> str:
