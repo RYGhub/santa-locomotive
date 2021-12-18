@@ -22,7 +22,7 @@ from steamfront import app as app
 )
 def combustion_chamber(include_header, output_format, names):
     client = steamfront.Client()
-    if include_header and output_format != "json":
+    if include_header and output_format == "tabs":
         click.echo("APPID\tGENRES\tCATEGORIES\tBANNER_URL\tSHORT_DESC\tLONG_DESC\t\n")
     for name in names:
         try:
