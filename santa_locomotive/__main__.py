@@ -19,7 +19,7 @@ def combustion_chamber(include_header, names):
     client = steamfront.Client()
 
     if include_header:
-        click.secho(locomotive_on_rails(), bold=True, underline=True, bg="bright_white", fg="black")
+        click.secho(locomotive_on_rails(), bold=True, reverse=True)
 
     for name in names:
         try:
