@@ -75,7 +75,7 @@ def subsection_on_rails(subsection: list) -> str:
 
 
 def content_sanitizer(content: str) -> str:
-    return " ".join(content.split())
+    return " ".join(content.split()).replace("<br />", " ")
 
 
 if __name__ == "__main__":
