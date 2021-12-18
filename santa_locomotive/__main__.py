@@ -24,9 +24,10 @@ def combustion_chamber(include_header, names):
     for name in names:
         try:
             game = find_next_stop(client=client, value=name)
-            game_on_rails(game)
-        except steamfront.client._AppNotFound:
-            click.echo(err=True, message="Game not found: {}".format(name))
+        except steamfront.errors.AppNotFound:
+            click.secho(f"error: game not found: {name}", err=True, bold=True, fg="bright_red")
+        else:
+            click.secho(game_on_rails(game))
 
 
 def find_next_stop(client: steamfront.Client, value: str) -> steamfront.app.App:
@@ -46,16 +47,27 @@ def locomotive_on_rails() -> str:
     """
     Get the results header.
     """
-    return "AppName\tAppID\tGenres\tFeatures\tBannerImageURL\tSummary\tDescription"
+    return "AppName\t" \
+           "AppID\t" \
+           "Genres\t" \
+           "Features\t" \
+           "BannerImageURL\t" \
+           "Summary\t" \
+           "Description"
 
 
 def game_on_rails(game: app.App) -> str:
-    click.echo("{}\t{}\t{}\t{}\t{}\t{}\t\n".format(game.appid, subsection_on_rails(game.genres),
-                                                   subsection_on_rails(game.categories), game.header_image,
-                                                   content_sanitizer(game.short_description),
-                                                   content_sanitizer(game.detailed_description)
-                                                   )
-               )
+    """
+    :param game: The :class:`steamfront.app.App` to format.
+    :return: The formatted :class:`str`.
+    """
+    return f"{game.name}\t" \
+           f"{game.appid}\t" \
+           f"{subsection_on_rails(game.genres)}\t" \
+           f"{subsection_on_rails(game.categories)}\t" \
+           f"{game.header_image}\t" \
+           f"{content_sanitizer(game.short_description)}\t" \
+           f"{content_sanitizer(game.detailed_description)}"
 
 
 def subsection_on_rails(subsection: list) -> str:
