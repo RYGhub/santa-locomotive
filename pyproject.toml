@@ -1,8 +1,11 @@
 [tool.poetry]
 name = "santa-locomotive"
-version = "0.1.0"
-description = ""
-authors = ["Nemesis <lorenzo.balugani@gmail.com>"]
+version = "0.2.0"
+description = "Command-line Steam info fetcher"
+authors = [
+   "Lorenzo Balugani <lorenzo.balugani@gmail.com>",
+   "Stefano Pigozzi <me@steffo.eu>",
+]
 
 [tool.poetry.dependencies]
 python = "^3.10"
