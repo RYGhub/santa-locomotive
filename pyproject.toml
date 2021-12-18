@@ -12,6 +12,9 @@ steam = "^1.2.0"
 
 [tool.poetry.dev-dependencies]
 
+[tool.poetry.scripts]
+"santa-locomotive" = "santa_locomotive.__main__:combustion_chamber"
+
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
