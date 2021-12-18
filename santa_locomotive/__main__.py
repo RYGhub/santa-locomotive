@@ -34,6 +34,12 @@ def combustion_chamber(include_header, output_format, names):
 
 
 def find_next_stop(client: steamfront.Client, value: str) -> steamfront.app.App:
+    """
+    :param client: The :class:`steamfront.Client` to use.
+    :param value: The :class:`str` to search for, either a game name or an AppID.
+    :return: The ~~next stop~~ found :class:`steamfront.app.App`.
+    :raises steamfront.errors.AppNotFound: If no app was found, both by AppID and by name.
+    """
     try:
         return client.getApp(appid=value)
     except (ValueError, TypeError, steamfront.errors.AppNotFound):
