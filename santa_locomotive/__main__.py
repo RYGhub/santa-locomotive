@@ -1,5 +1,6 @@
 import click
 import steamfront
+import steamfront.errors
 from steamfront import app as app
 
 
@@ -26,10 +27,17 @@ def combustion_chamber(include_header, output_format, names):
         click.echo("APPID\tGENRES\tCATEGORIES\tBANNER_URL\tSHORT_DESC\tLONG_DESC\t\n")
     for name in names:
         try:
-            game = client.getApp(name=name)
+            game = find_next_stop(client=client, value=name)
             game_on_rails(game, output_format)
         except steamfront.client._AppNotFound:
             click.echo(err=True, message="Game not found: {}".format(name))
+
+
+def find_next_stop(client: steamfront.Client, value: str) -> steamfront.app.App:
+    try:
+        return client.getApp(appid=value)
+    except (ValueError, TypeError, steamfront.errors.AppNotFound):
+        return client.getApp(name=value)
 
 
 def game_on_rails(game: app.App, output_format):
