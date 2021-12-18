@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "locomotive"
+name = "santa-locomotive"
 version = "0.1.0"
 description = ""
 authors = ["Nemesis <lorenzo.balugani@gmail.com>"]
