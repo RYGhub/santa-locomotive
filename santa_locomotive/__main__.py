@@ -52,6 +52,7 @@ def locomotive_on_rails() -> str:
            "Genres\t" \
            "Features\t" \
            "BannerImageURL\t" \
+           "About\t" \
            "Summary\t" \
            "Description"
 
@@ -66,6 +67,7 @@ def game_on_rails(game: app.App) -> str:
            f"{subsection_on_rails(game.genres)}\t" \
            f"{subsection_on_rails(game.categories)}\t" \
            f"{game.header_image}\t" \
+           f"{content_sanitizer(game.about_the_game)}\t" \
            f"{content_sanitizer(game.short_description)}\t" \
            f"{content_sanitizer(game.detailed_description)}"
 
