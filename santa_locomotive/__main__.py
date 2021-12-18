@@ -9,28 +9,22 @@ from steamfront import app as app
     '--include-header/--exclude-header',
     "include_header",
     default=True,
-    help="Adds an header detailing the column contents.\nIgnored if output format is not 'tabs'.",
-)
-@click.option(
-    '--output-format',
-    "output_format",
-    default="tabs",
-    help="The format the program should output data as. Available values: 'tabs'",
+    help="Adds an header detailing the column contents.",
 )
 @click.argument(
     "names",
     nargs=-1,
 )
-def combustion_chamber(include_header, output_format, names):
+def combustion_chamber(include_header, names):
     client = steamfront.Client()
 
-    if include_header and output_format == "tabs":
-        click.secho(locomotive_on_rails(), bold=True, underline=True)
+    if include_header:
+        click.secho(locomotive_on_rails(), bold=True, underline=True, bg="bright_white", fg="black")
 
     for name in names:
         try:
             game = find_next_stop(client=client, value=name)
-            game_on_rails(game, output_format)
+            game_on_rails(game)
         except steamfront.client._AppNotFound:
             click.echo(err=True, message="Game not found: {}".format(name))
 
@@ -55,16 +49,13 @@ def locomotive_on_rails() -> str:
     return "AppName\tAppID\tGenres\tFeatures\tBannerImageURL\tSummary\tDescription"
 
 
-def game_on_rails(game: app.App, output_format):
-    if output_format == "tabs":
-        click.echo("{}\t{}\t{}\t{}\t{}\t{}\t\n".format(game.appid, subsection_on_rails(game.genres),
-                                                       subsection_on_rails(game.categories), game.header_image,
-                                                       content_sanitizer(game.short_description),
-                                                       content_sanitizer(game.detailed_description)
-                                                       )
-                   )
-    else:
-        raise NotImplementedError
+def game_on_rails(game: app.App) -> str:
+    click.echo("{}\t{}\t{}\t{}\t{}\t{}\t\n".format(game.appid, subsection_on_rails(game.genres),
+                                                   subsection_on_rails(game.categories), game.header_image,
+                                                   content_sanitizer(game.short_description),
+                                                   content_sanitizer(game.detailed_description)
+                                                   )
+               )
 
 
 def subsection_on_rails(subsection: list) -> str:
