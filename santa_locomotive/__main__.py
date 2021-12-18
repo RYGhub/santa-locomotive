@@ -8,8 +8,8 @@ from steamfront import app as app
 @click.option(
     '--include-header/--exclude-header',
     "include_header",
-    default=False,
-    help="Adds an header detailing the column contents.\nIgnored if output format is not tabs.",
+    default=True,
+    help="Adds an header detailing the column contents.\nIgnored if output format is not 'tabs'.",
 )
 @click.option(
     '--output-format',
@@ -23,8 +23,10 @@ from steamfront import app as app
 )
 def combustion_chamber(include_header, output_format, names):
     client = steamfront.Client()
+
     if include_header and output_format == "tabs":
-        click.echo("APPID\tGENRES\tCATEGORIES\tBANNER_URL\tSHORT_DESC\tLONG_DESC\t\n")
+        click.secho(locomotive_on_rails(), bold=True, underline=True)
+
     for name in names:
         try:
             game = find_next_stop(client=client, value=name)
@@ -44,6 +46,13 @@ def find_next_stop(client: steamfront.Client, value: str) -> steamfront.app.App:
         return client.getApp(appid=value)
     except (ValueError, TypeError, steamfront.errors.AppNotFound):
         return client.getApp(name=value)
+
+
+def locomotive_on_rails() -> str:
+    """
+    Get the results header.
+    """
+    return "AppName\tAppID\tGenres\tFeatures\tBannerImageURL\tSummary\tDescription"
 
 
 def game_on_rails(game: app.App, output_format):
