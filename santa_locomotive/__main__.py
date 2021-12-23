@@ -1,5 +1,6 @@
 import typing as t
 import click
+import time
 import steamfront
 import steamfront.errors
 from steamfront import app as app
@@ -29,6 +30,8 @@ def combustion_chamber(include_header, names):
             click.secho(f"error: game not found: {name}", err=True, bold=True, fg="bright_red")
         else:
             click.secho(game_on_rails(game))
+        finally:
+            time.sleep(1)
 
 
 def find_next_stop(client: steamfront.Client, value: str) -> steamfront.app.App:
